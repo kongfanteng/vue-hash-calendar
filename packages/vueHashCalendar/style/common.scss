@@ -1,0 +1,136 @@
+/**
+* @Description:
+* @Author:         TSY
+* @CreateDate:     2018/6/9 13:28
+*/
+
+@import './colorVariable.scss';
+
+// 设计稿尺寸
+$designSize: 750px;
+
+// 1px 实线边框
+@mixin solidBorder($color: $bg-color) {
+  border: 1px solid $color;
+}
+
+@mixin borderBottom($color: $bg-color) {
+  border-bottom: 1px solid $color;
+}
+
+@mixin borderTop($color: $bg-color) {
+  border-top: 1px solid $color;
+}
+
+@mixin borderLeft($color: $bg-color) {
+  border-left: 1px solid $color;
+}
+
+@mixin borderRight($color: $bg-color) {
+  border-right: 1px solid $color;
+}
+
+@mixin bottomLine($color: $bg-color) {
+  border-bottom: px2vw(16px) solid $color;
+}
+
+@mixin topLine($color: $bg-color) {
+  border-top: px2vw(16px) solid $color;
+}
+
+// 浏览器私有前缀属性扩展
+@mixin vendor($prop, $args) {
+  -webkit-#{$prop}: $args;
+  -moz-#{$prop}: $args;
+  #{$prop}: $args;
+}
+
+// 文字溢出显示省略号
+@mixin textOverflow() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// px转vw
+@function px2vw($size) {
+  @return ($size / $designSize * 100) + vw;
+}
+
+@mixin fontSize($size, $isMobile: true) {
+  @if $isMobile {
+    font-size: $size;
+    font-size: px2vw($size);
+  } @else {
+    font-size: $size;
+  }
+}
+
+@mixin paddingAround() {
+  padding: px2vw(30px) px2vw(34px);
+}
+
+@mixin paddingSmall() {
+  padding: px2vw(16px) px2vw(34px);
+}
+
+@mixin fixedTop() {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+@mixin fixedBottom() {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+}
+
+@mixin flexAlign($align: center) {
+  display: flex;
+  align-items: $align;
+}
+
+@mixin flexContent($align: center, $justify: center) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+}
+
+@mixin flexBetween($align: center) {
+  display: flex;
+  align-items: $align;
+  justify-content: space-between;
+}
+
+@mixin flexAround($align: center) {
+  display: flex;
+  align-items: $align;
+  justify-content: space-around;
+}
+
+.click_item:active {
+  background: #eee;
+}
+
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.pulldown-wrapper {
+  top: -150px;
+}
+
+.iconfont {
+  @include fontSize(34px);
+}

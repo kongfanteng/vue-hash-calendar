@@ -1,9 +1,3 @@
-/**
-* @Description:    日历组件
-* @Author:         TSY
-* @Email:          t@tsy6.com
-* @CreateDate:     2019/5/26 22:53
-*/
 <template>
   <div
     class="calendar_body"
@@ -99,7 +93,7 @@
 </template>
 
 <script>
-import { formatDate, isDateInRange } from '../utils/util';
+import { calculateCalendarOfMonth, daysOfMonth, formatDate, isDateInRange } from '../utils/util';
 import languageUtil from '../language';
 
 let timer = null;
@@ -432,14 +426,18 @@ export default {
       this.nextMonthYear = month === 11 ? year + 1 : year; // 下个月的年份
       this.nextMonth = month === 11 ? 0 : month + 1; // 下个月的月份
 
-      let firstMonth = this.calculateCalendarOfMonth(
+      let firstMonth = calculateCalendarOfMonth(
         this.lastMonthYear,
-        this.lastMonth
+        this.lastMonth,
+        this.weekStartIndex,
+        this.isShowNotCurrentMonthDay
       );
-      let secondMonth = this.calculateCalendarOfMonth(year, month);
-      let thirdMonth = this.calculateCalendarOfMonth(
+      let secondMonth = calculateCalendarOfMonth(year, month, this.weekStartIndex,
+        this.isShowNotCurrentMonthDay);
+      let thirdMonth = calculateCalendarOfMonth(
         this.nextMonthYear,
-        this.nextMonth
+        this.nextMonth,this.weekStartIndex,
+        this.isShowNotCurrentMonthDay
       );
 
       this.calendarOfMonth = [];
@@ -454,7 +452,7 @@ export default {
       let tempDate = {};
       let day = this.checkedDate.day;
       if (day > 30 || (day > 28 && month === 1)) {
-        day = this.daysOfMonth(year)[month];
+        day = daysOfMonth(year)[month];
       }
       tempDate = { day: day, year: year, month: month };
 
@@ -466,94 +464,6 @@ export default {
       this.$set(this.checkedDate, 'day', tempDate.day);
       this.$set(this.checkedDate, 'year', year);
       this.$set(this.checkedDate, 'month', month);
-    },
-    // 计算每个月的日历
-    calculateCalendarOfMonth(
-      year = new Date().getFullYear(),
-      month = new Date().getMonth()
-    ) {
-      let calendarOfCurrentMonth = [];
-
-      let lastMonthYear = month === 0 ? year - 1 : year; // 上个月的年份
-      let lastMonth = month === 0 ? 11 : month - 1; // 上个月的月份
-      let nextMonthYear = month === 11 ? year + 1 : year; // 下个月的年份
-      let nextMonth = month === 11 ? 0 : month + 1; // 下个月的月份
-
-      // 如果当月第一天不是指定的开始星期名称，则在前面补齐上个月的日期
-      let dayOfWeek = this.getDayOfWeek(year, month);
-      let lastMonthDays = this.daysOfMonth(year)[lastMonth]; // 上个月的总天数
-      if (dayOfWeek < this.weekStartIndex) {
-        dayOfWeek = 7 - this.weekStartIndex + dayOfWeek;
-      } else {
-        dayOfWeek -= this.weekStartIndex;
-      }
-      for (let i = 0; i < dayOfWeek; i++) {
-        calendarOfCurrentMonth.push({
-          year: lastMonthYear,
-          month: lastMonth,
-          day: this.isShowNotCurrentMonthDay
-            ? lastMonthDays - (dayOfWeek - 1 - i)
-            : '',
-        });
-      }
-
-      // 当月日期
-      for (let i = 0; i < this.daysOfMonth(year)[month]; i++) {
-        calendarOfCurrentMonth.push({
-          year: year,
-          month: month,
-          day: i + 1,
-        });
-      }
-
-      // 在日历后面填充下个月的日期，补齐6行7列
-      let fillDays =
-        this.calendarDaysTotalLength - calendarOfCurrentMonth.length;
-      for (let i = 0; i < fillDays; i++) {
-        calendarOfCurrentMonth.push({
-          year: nextMonthYear,
-          month: nextMonth,
-          day: this.isShowNotCurrentMonthDay ? i + 1 : '',
-        });
-      }
-
-      return calendarOfCurrentMonth;
-    },
-    daysOfMonth(year) {
-      return [
-        31,
-        28 + this.isLeap(year),
-        31,
-        30,
-        31,
-        30,
-        31,
-        31,
-        30,
-        31,
-        30,
-        31,
-      ];
-    },
-    // 判断是否为闰年
-    isLeap(year) {
-      return year % 4 === 0
-        ? year % 100 !== 0
-          ? 1
-          : year % 400 === 0
-          ? 1
-          : 0
-        : 0;
-    },
-    // 获取月份某一天是星期几
-    getDayOfWeek(
-      year = new Date().getFullYear(),
-      month = new Date().getMonth(),
-      day = 1
-    ) {
-      let dayOfMonth = new Date(year, month, day); // 获取当月的第day天
-      let dayOfWeek = dayOfMonth.getDay(); // 判断第day天是星期几(返回[0-6]中的一个，0代表星期天，1代表星期一)
-      return dayOfWeek;
     },
     // 点击日历上的日期
     clickCalendarDay(date, index) {
@@ -787,7 +697,7 @@ export default {
       } else {
         if (
           lastDayOfCurrentWeek.day ===
-          this.daysOfMonth(lastDayOfCurrentWeek.year)[cMonth]
+          daysOfMonth(lastDayOfCurrentWeek.year)[cMonth]
         ) {
           this.nextWeek = this.calendarOfMonth[2].slice(0, 7);
         } else {
@@ -907,7 +817,7 @@ export default {
       } else {
         let lastMonthLastedDay = new Date(
           `${this.lastMonthYear}/${this.lastMonth + 1}/${
-            this.daysOfMonth(this.lastMonthYear)[this.lastMonth]
+            daysOfMonth(this.lastMonthYear)[this.lastMonth]
           }`
         ).getTime();
         let nextMonthFirstDay = new Date(

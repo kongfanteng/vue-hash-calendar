@@ -140,6 +140,13 @@ export default {
       } else if (val === 'yearRange') {
         this.yearMonthShow = this.getThreeYearRangeArr()
       }
+    },
+    yearMonthShow: {
+      handler(){
+        console.log('this.yearMonthShow:', this.yearMonthShow)
+      },
+      immediate: true,
+      deep: true,
     }
   },
   computed: {

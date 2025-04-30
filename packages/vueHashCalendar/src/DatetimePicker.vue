@@ -88,8 +88,8 @@
         :isShowWeekView.sync="isShowWeek"
         v-bind="{ ...$props, ...$attrs }"
         :calendarTitleHeight="calendarTitleHeight"
-        @height="heightChange"
         :default-date="currDateTime"
+        @height="heightChange"
         @touchstart="touchStart"
         @touchmove="touchMove"
         @touchend="touchEnd"
@@ -98,9 +98,11 @@
         @click="dateClick"
       >
         <template v-if="hasSlot('week')" slot="week" slot-scope="scope">
+          {{ scope }}
           <slot name="week" :week="scope.week"> </slot>
         </template>
         <template v-if="hasSlot('day')" slot="day" slot-scope="scope">
+          {{ scope }}
           <slot name="day" :date="scope.date" :extendAttr="scope.extendAttr">
           </slot>
         </template>

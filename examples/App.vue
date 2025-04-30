@@ -11,9 +11,9 @@
     <button @click="nextWeek">下周</button>
     <button @click="lastMonth">上月</button>
     <button @click="nextMonth">下月</button>
+      <!-- model="dialog" -->
     <vue-hash-calendar
       ref="picker"
-      model="dialog"
       :is-show-arrow="false"
       :is-show-not-current-month-day="true"
       :scroll-change-date="true"
@@ -34,7 +34,7 @@
       :change-year-fast="true"
       :theme-color="themeColor"
       format="YY/MM/DD hh:mm"
-      lang="cn"
+      lang="en"
       @calendarTypeChange="calendarTypeChange"
       @confirm="dateConfirm"
       @slidechange="slidechange"
@@ -57,7 +57,10 @@ export default {
   components: { Github },
   data() {
     return {
-      themeColor: {}, // 主题颜色
+      themeColor: {
+        // 'main-color': '#ff6600',
+        'disabled-bg-color': 'none',
+      }, // 主题颜色
       isShowCalendar: true, // 是否显示弹窗
       isShowTips: false, // 是否显示下载提示
       defaultDatetime: new Date(),
