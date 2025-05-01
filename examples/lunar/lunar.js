@@ -1017,9 +1017,7 @@ export const lunar = {
     m = parseInt(m)
     d = parseInt(d)
     isLeapMonth = !!isLeapMonth
-    const leapOffset = 0
     const leapMonth = this.leapMonth(y)
-    const leapDay = this.leapDays(y)
     if (isLeapMonth && leapMonth !== m) {
       return -1
     } // 传参要求计算该闰月公历 但该年得出的闰月与传参的月份并不同

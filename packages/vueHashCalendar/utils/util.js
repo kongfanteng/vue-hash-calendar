@@ -23,7 +23,7 @@ export const checkPlatform = function() {
  * @param format
  * @returns {string}
  */
-export let formatDate = function(time, format, lang = 'EN') {
+export let formatDate = function(time, format, lang = 'CN') {
   lang = lang.toUpperCase()
   let language = require('../language').default[lang] || {}
   format = format || `${language.DEFAULT_DATE_FORMAT} ${language.DEFAULT_TIME_FORMAT}`
