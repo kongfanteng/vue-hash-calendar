@@ -1,20 +1,9 @@
-/**
-* @Description:    日期、时间选择器
-* @Author:         TSY
-* @CreateDate:     2019/5/17 16:22
-* @Email:          t@tsy6.com
-*/
 <template>
   <div
-    class="hash-calendar"
-    :class="{ calendar_inline: model === 'inline' }"
+    class="hash-calendar calendar_inline"
     v-show="isShowDatetimePicker"
     :style="{
-      height: `${
-        model === 'inline'
-          ? calendarContentHeight + calArrowHeight()
-          : undefined
-      }px`,
+      height: `${calendarContentHeight + calArrowHeight()}px`,
     }"
     @click="close"
   >
@@ -30,7 +19,6 @@
         <slot name="action">
           <div class="calendar_title_date">
             <span
-              v-if="pickerType !== 'time'"
               class="calendar_title_date_year"
               :class="{ calendar_title_date_active: isShowCalendar }"
               @click="showCalendar"
@@ -40,22 +28,6 @@
                     checkedDate.day
                   }`,
                   language.DEFAULT_DATE_FORMAT
-                )
-              }}</span
-            >
-            <span
-              v-if="pickerType !== 'date'"
-              class="calendar_title_date_time"
-              :class="{ calendar_title_date_active: !isShowCalendar }"
-              @click="showTime"
-              >{{
-                formatDate(
-                  `${checkedDate.year}/${checkedDate.month + 1}/${
-                    checkedDate.day
-                  } ${fillNumber(checkedDate.hours)}:${fillNumber(
-                    checkedDate.minutes
-                  )}`,
-                  language.DEFAULT_TIME_FORMAT
                 )
               }}</span
             >
@@ -70,20 +42,11 @@
               {{ language.TODAY }}
             </slot>
           </div>
-          <div
-            class="calendar_confirm"
-            v-if="model === 'dialog'"
-            @click="confirm"
-          >
-            <slot name="confirm">
-              {{ language.CONFIRM }}
-            </slot>
-          </div>
+          
         </slot>
       </div>
       <calendar
         ref="calendar"
-        v-if="pickerType !== 'time'"
         :show="isShowCalendar"
         :isShowWeekView.sync="isShowWeek"
         v-bind="{ ...$props, ...$attrs }"
@@ -98,38 +61,13 @@
         @click="dateClick"
       >
         <template v-if="hasSlot('week')" slot="week" slot-scope="scope">
-          {{ scope }}
           <slot name="week" :week="scope.week"> </slot>
         </template>
         <template v-if="hasSlot('day')" slot="day" slot-scope="scope">
-          {{ scope }}
           <slot name="day" :date="scope.date" :extendAttr="scope.extendAttr">
           </slot>
         </template>
       </calendar>
-
-      <time-picker
-        v-if="pickerType !== 'date'"
-        :show="!isShowCalendar"
-        :default-time="currDateTime"
-        :calendarDate="checkedDate"
-        v-bind="{ ...$props, ...$attrs }"
-        @change="timeChange"
-      ></time-picker>
-
-      <year-month-picker
-        v-if="changeYearFast"
-        :calendarTitleHeight="calendarTitleHeight"
-        :calendarContentHeight="calendarContentHeight"
-        :calendarDate="checkedDate"
-        @touchstart="touchStart"
-        @touchmove="touchMove"
-        @touchend="touchEnd"
-        @slidechange="slideChange"
-        v-bind="{ ...$props, ...$attrs }"
-        @click="dateClick"
-        :type="yearMonthType"
-      ></year-month-picker>
     </div>
     <div
       class="ctrl-img"
@@ -149,9 +87,8 @@
 </template>
 
 <script>
+// @ts-check1
 import Calendar from './Calendar.vue'
-import TimePicker from './TimePicker.vue'
-import YearMonthPicker from './YearMonthPicker.vue'
 import { formatDate } from '../utils/util'
 import { ARROW_DOWN_IMG, ARROW_UP_IMG } from '../constant/img'
 import languageUtil from '../language'
@@ -176,7 +113,7 @@ export default {
       type: Boolean,
       default: false
     },
-    // 是否显示 周月视图切换指示箭头，model 等于 inline 时生效
+    // 是否显示 周月视图切换指示箭头
     isShowArrow: {
       type: Boolean,
       default: false
@@ -197,9 +134,8 @@ export default {
       default: true
     },
     pickerType: {
-      // 选择器类型 datetime：日期+时间   date：日期   time：时间
       type: String,
-      default: 'datetime'
+      default: 'date'
     },
     showTodayButton: {
       // 是否显示返回今日按钮
@@ -214,10 +150,6 @@ export default {
       }
     },
     format: null, // 确认选择之后，返回的日期格式
-    model: {
-      type: String,
-      default: 'inline'
-    },
     // 日期下面的标记
     markDate: {
       type: Array,
@@ -233,12 +165,10 @@ export default {
     // 使用的语言包
     lang: {
       type: String,
-      default: 'CN'
+      default: 'EN'
     }
   },
   components: {
-    YearMonthPicker,
-    TimePicker,
     Calendar
   },
   name: 'VueHashCalendar',
@@ -252,16 +182,12 @@ export default {
       isShowCalendar: false, // 是否显示日历选择控件
       calendarBodyHeight: 0, // 日历内容的高度
       calendarTitleHeight: 0, // 日历组件标题高度
-      firstTimes: true, // 第一次触发
       currDateTime: new Date(), // 当前日期
       yearMonthType: 'date' // 年月选择面板默认展示类型
     }
   },
   mounted() {
-    if (this.model === 'inline') {
-      this.isShowDatetimePicker = true
-    }
-
+    this.isShowDatetimePicker = true
     this.language = languageUtil[this.lang.toUpperCase()]
   },
   watch: {
@@ -280,14 +206,6 @@ export default {
         }
 
         this.currDateTime = val
-      },
-      immediate: true
-    },
-    pickerType: {
-      handler(val) {
-        if (val === 'time') {
-          this.showTime()
-        }
       },
       immediate: true
     },
@@ -347,17 +265,8 @@ export default {
   },
   computed: {
     isShowArrowImg() {
-      return this.isShowArrow && this.model === 'inline'
+      return this.isShowArrow
     },
-    // 是否显示周视图 (为兼容旧版本，舍弃这种方式)
-    // isShowWeek: {
-    //   get() {
-    //     return this.isShowWeekView
-    //   },
-    //   set(val) {
-    //     this.$emit('update:isShowWeekView', val)
-    //   }
-    // },
     // 是否显示日期控件
     isShowDatetimePicker: {
       get() {
@@ -446,21 +355,7 @@ export default {
       date.day = this.checkedDate.day
       this.checkedDate = date
     },
-    // 确认选择时间
-    confirm() {
-      let date = new Date(
-        `${this.checkedDate.year}/${this.checkedDate.month + 1}/${
-          this.checkedDate.day
-        } ${this.checkedDate.hours}:${this.checkedDate.minutes}`
-      )
-      if (this.format) {
-        date = formatDate(date, this.format, this.lang)
-      }
-      this.$emit('confirm', date)
-      if (this.model === 'dialog') {
-        this.close()
-      }
-    },
+    
     show() {
       this.isShowDatetimePicker = true
     },
@@ -483,13 +378,6 @@ export default {
       }
       this.isShowCalendar = true
     },
-    // 显示时间选择控件
-    showTime() {
-      this.isShowCalendar = false
-
-      // 重置年月选择面板
-      this.yearMonthType = 'time'
-    },
     // 显示年月选择面板
     showYearMonthPicker() {
       if (!this.changeYearFast || this.isShowWeek) return
@@ -506,10 +394,7 @@ export default {
     },
     // 高度变化
     heightChange(height) {
-      if (!this.firstTimes && this.model === 'dialog') return
-
       this.calendarBodyHeight = height
-      this.firstTimes = false
     },
     // 根据传入的 arrow slot 计算高度
     calArrowHeight() {

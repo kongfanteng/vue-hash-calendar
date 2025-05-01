@@ -1,28 +1,20 @@
-/**
-* @Description:    滑动事件监听demo
-* @Author:         TSY
-* @Email:          t@tsy6.com
-* @CreateDate:     2019/11/30 13:29
-*/
 <template>
     <div class="body">
         <vue-hash-calendar
+                :visible="true"
                 @touchstart="touchStart"
                 @touchmove="touchMove"
                 @slidechange="slideChange"
                 @touchend="touchEnd">
         </vue-hash-calendar>
-        <!--github入口-->
-        <github></github>
     </div>
 </template>
 
 <script>
-import Github from './Github.vue'
 
 export default {
   name: 'TouchDemo',
-  components: { Github },
+  components: {},
   data() {
     return {}
   },

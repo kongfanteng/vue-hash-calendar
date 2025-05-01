@@ -5,7 +5,7 @@
     v-show="show"
   >
     <div class="calendar_week" ref="weekTitle">
-      <div class="calendar_item" v-for="item in calendarWeek" :key="item">
+      <div class="calendar_item" v-for="(item, index) in calendarWeek" :key="`${item}-${index}`">
         <p class="calendar_day">
           <slot name="week" :week="item">
             {{ item }}

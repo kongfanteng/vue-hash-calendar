@@ -1,18 +1,10 @@
-/**
-* @Description:    vue-hash-calendar 移动端日期、时间选择插件，日期选择面板以日历形式展示。支持上下滑动切换日期、时间
-* @Author:         TSY
-* @CreateDate:     2019/05/23 00:08
-* @Email:          t@tsy6.com
-*/
 <template>
   <div class="body">
-    <button @click="showCalendarDialog">显示</button>
-    <button @click="lastWeek">上周</button>
-    <button @click="nextWeek">下周</button>
-    <button @click="lastMonth">上月</button>
-    <button @click="nextMonth">下月</button>
-      <!-- model="dialog" -->
     <vue-hash-calendar
+      :isShowArrow="true"
+      :changeYearFast="true"
+      :isShowWeekView="false"
+      pickerType="date"
       ref="picker"
       :is-show-arrow="false"
       :is-show-not-current-month-day="true"
@@ -26,7 +18,6 @@
       :disabled-scroll="false"
       :mark-date="markDate"
       mark-type="dotcircle"
-      :disabled-date="disabledDate"
       week-start="sunday"
       picker-type="datetime"
       :show-today-button="true"
@@ -42,17 +33,24 @@
       @change="dateChange"
     >
     </vue-hash-calendar>
+
+
+    <FirstDayDemo />
+    <SlotDemo />
+    <TouchDemo />
   </div>
 </template>
 
 <script>
-import Github from './Github.vue'
+import FirstDayDemo from './FirstDayDemo.vue'
+import SlotDemo from './SlotDemo.vue'
+import TouchDemo from './TouchDemo.vue'
 
 const currentYear = new Date().getFullYear()
 
 export default {
   name: 'demo',
-  components: { Github },
+  components: {FirstDayDemo, SlotDemo, TouchDemo},
   data() {
     return {
       themeColor: {

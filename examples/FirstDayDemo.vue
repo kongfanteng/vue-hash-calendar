@@ -16,17 +16,14 @@
         <div v-else>{{scope.date.day}}</div>
       </div>
     </vue-hash-calendar>
-    <!--github入口-->
-    <github></github>
   </div>
 </template>
 
 <script>
-import Github from './Github.vue'
 
 export default {
   name: 'demo',
-  components: { Github },
+  components: {},
   data() {
     return {
       isShowCalendar: true, // 是否显示弹窗
