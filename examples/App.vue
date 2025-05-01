@@ -35,9 +35,9 @@
     </vue-hash-calendar>
 
 
-    <FirstDayDemo />
+    <!-- <FirstDayDemo />
     <SlotDemo />
-    <TouchDemo />
+    <TouchDemo /> -->
   </div>
 </template>
 

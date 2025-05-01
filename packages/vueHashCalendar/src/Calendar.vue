@@ -74,11 +74,7 @@
                   isFirstDayOfMonth: isFirstDayOfMonth(date, i),
                 }"
               >
-                {{
-                  isFirstDayOfMonth(date, i)
-                    ? language.MONTH && language.MONTH[date.month]
-                    : date.day
-                }}
+                {{ date.day }}
               </slot>
             </div>
             <div
@@ -404,7 +400,6 @@ export default {
         setTimeout(() => {
           this.isTouching = true;
 
-          // fix: 周视图无法通过点击今天按钮返回  https://github.com/TangSY/vue-hash-calendar/issues/87
           this.$set(this.checkedDate, 'year', new Date().getFullYear());
           this.$set(this.checkedDate, 'month', new Date().getMonth());
 
@@ -458,7 +453,6 @@ export default {
 
       if (this.formatDisabledDate(tempDate)) return;
 
-      // fix: change 事件会触发两次 https://github.com/TangSY/vue-hash-calendar/issues/47
       if (this.isShowWeek) return;
 
       this.$set(this.checkedDate, 'day', tempDate.day);
@@ -630,7 +624,6 @@ export default {
     },
     // 日历以星期方式展示
     showWeek(checkedDate = this.checkedDate) {
-      console.log(JSON.stringify(checkedDate));
       let daysArr = [];
       this.calendarOfMonth[1].forEach((item) => {
         daysArr.push(item.day);
