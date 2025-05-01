@@ -1,9 +1,3 @@
-/**
-* @Description:    日历滑动容器
-* @Author:         TSY
-* @Email:          t@tsy6.com
-* @CreateDate:     2021/6/27 16:53
-*/
 <template>
   <ul class="calendar_group_ul"
       ref="container"
@@ -22,6 +16,7 @@
 
 <script>
 export default {
+  name: 'ScrollContainer',
   props: {
     // 禁止滑动，可选值【left, right, up, down, horizontal, vertical, true, false】
     disabledScroll: {
@@ -132,8 +127,8 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-@import '../style/common.styl';
+<style lang="scss" scoped>
+@import '../style/common.scss';
 
 .calendar_group_ul {
   height: 100%;
@@ -148,7 +143,7 @@ export default {
   right: 0;
   height: 100%;
   width: 100%;
-  flexAlign();
+  @include flexAlign();
   flex-wrap: wrap;
   background: white;
   will-change: transform;

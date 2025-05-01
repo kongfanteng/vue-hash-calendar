@@ -1,23 +1,4 @@
 /**
- * @Description:    各种工具类
- * @Author:         TSY
- * @CreateDate:     2018/6/9 13:28
- */
-
-/**
- * 判断安卓与IOS平台
- * @returns {string}
- */
-export const checkPlatform = function() {
-  if (/android/i.test(navigator.userAgent)) {
-    return '1'
-  }
-  if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-    return '2'
-  }
-}
-
-/**
  * 日期格式化
  * @param time
  * @param format

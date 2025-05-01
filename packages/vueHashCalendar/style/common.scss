@@ -1,9 +1,3 @@
-/**
-* @Description:
-* @Author:         TSY
-* @CreateDate:     2018/6/9 13:28
-*/
-
 @import './colorVariable.scss';
 
 // 设计稿尺寸
@@ -54,7 +48,7 @@ $designSize: 750px;
 
 // px转vw
 @function px2vw($size) {
-  @return ($size / $designSize * 100) + vw;
+  @return calc($size / $designSize * 100) + vw;
 }
 
 @mixin fontSize($size, $isMobile: true) {

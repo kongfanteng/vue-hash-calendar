@@ -46,12 +46,13 @@
             :key="i + j"
             @click="clickCalendarDay(date, j)"
           >
+          <!-- isFirstDayOfMonth(date, i) &&
+                  (firstDayOfMonthClassName || 'calendar_first_today'), -->
             <div
               class="calendar_day"
               :style="{ 'border-color': markDateColor(date, 'circle') }"
               :class="[
-                isFirstDayOfMonth(date, i) &&
-                  (firstDayOfMonthClassName || 'calendar_first_today'),
+                
                 isToday(date) && (todayClassName || 'calendar_day_today'),
                 isCheckedDay(date) &&
                   (checkedDayClassName || 'calendar_day_checked'),
@@ -534,7 +535,6 @@ export default {
     touchMove(event) {
       this.$emit('touchmove', event);
 
-      // fix: 禁止切换周模式显示后，日历区域上下滑动，页面不能触发上下滑动了 #62
       if (!this.disabledWeekView) {
         event.stopPropagation();
         event.preventDefault();
@@ -857,8 +857,8 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
-@import '../style/common.styl';
+<style lang="scss" scoped>
+@import '../style/common.scss';
 
 .calendar_body {
   position: relative;
@@ -871,9 +871,9 @@ export default {
   width: 100%;
   left: 0;
   top: 0;
-  flexAlign();
+  @include flexAlign();
   background: white;
-  viceFontColor(color);
+  @include viceFontColor('color');
   z-index: 2;
 }
 
@@ -886,10 +886,10 @@ export default {
   overflow: hidden;
   transition: height 0.3s;
   -webkit-transition: height 0.3s;
-}
 
-.calendar_group ul {
-  height: 100%;
+  ul {
+    height: 100%;
+  }
 }
 
 .calendar_group_li {
@@ -900,7 +900,7 @@ export default {
   right: 0;
   height: 100%;
   width: 100%;
-  flexAlign();
+  @include flexAlign();
   flex-wrap: wrap;
   background: white;
   will-change: transform;
@@ -908,50 +908,50 @@ export default {
 
 .calendar_item {
   width: 14.13333335%;
-  flexContent();
+  @include flexContent();
   flex-direction: column;
   padding: 2px 0;
 }
 
 .calendar_item_disable {
-  disabledBgColor(background-color);
+  @include disabledBgColor('background-color');
   opacity: 1;
   cursor: not-allowed;
-  disabledFontColor(color);
+  @include disabledFontColor('color');
 }
 
 .calendar_day {
   width: px2vw(60px);
   height: px2vw(60px);
   border-radius: 50%;
-  fontSize(28px);
-  flexContent();
+  @include fontSize(28px);
+  @include flexContent();
   margin-bottom: px2vw(5px);
 }
 
 .calendar_first_today {
-  mainColor(color);
-}
+  @include mainColor('color');
 
-.calendar_first_today span {
-  fontSize(20px);
-  margin-top: px2vw(3px);
+  span {
+    @include fontSize(20px);
+    margin-top: px2vw(3px);
+  }
 }
 
 .calendar_day_today {
-  bgColor(background);
+  @include bgColor('background');
 }
 
 .calendar_mark_circle {
-  mainColor(border);
+  @include mainColor('border');
 }
 
 .calendar_day_not {
-  disabledFontColor(color);
+  @include disabledFontColor('color');
 }
 
 .calendar_day_checked {
-  mainColor(background);
+  @include mainColor('background');
   color: white;
 }
 

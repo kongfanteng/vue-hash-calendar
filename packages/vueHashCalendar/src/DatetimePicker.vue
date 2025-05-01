@@ -441,8 +441,8 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-@import '../style/common.styl';
+<style lang="scss" scoped>
+@import '../style/common.scss';
 
 .hash-calendar {
   position: fixed;
@@ -481,8 +481,8 @@ export default {
   width: 100%;
   left: 0;
   top: 0;
-  bgColor(background);
-  borderBottom();
+  @include bgColor('background');
+  @include borderBottom();
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -490,13 +490,13 @@ export default {
 }
 
 .calendar_title_date {
-  viceFontColor(color);
+  @include viceFontColor('color');
   background: white;
   padding: px2vw(30px) px2vw(15px);
 }
 
 .calendar_title_date_active {
-  mainFontColor(color);
+  @include mainFontColor('color');
   font-weight: bold;
 }
 
@@ -505,12 +505,12 @@ export default {
 }
 
 .calendar_confirm {
-  mainColor(color);
+  @include mainColor('color');
   margin-right: px2vw(34px);
 }
 
 .today_disable {
-  disabledFontColor(color);
+  @include disabledFontColor('color');
 }
 
 .ctrl-img {
