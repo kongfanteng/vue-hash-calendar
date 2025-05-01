@@ -16,7 +16,7 @@
   "keyword": "vue-hash-calendar calendar date-picker datetime-picker time-picker week-picker",
   "private": false,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test": "echo 'exited with 0'",
     "lib": "vue-cli-service build --target lib --name vue-hash-calendar --dest lib packages/index.js",
