@@ -875,14 +875,13 @@ export default {
 
 .calendar_group {
   position: absolute;
-  top: px2vw(70px);
+  top: px2vw(49px);
   left: 0;
   bottom: 0;
   right: 0;
   overflow: hidden;
   transition: height 0.3s;
   -webkit-transition: height 0.3s;
-
   ul {
     height: 100%;
   }
@@ -906,7 +905,7 @@ export default {
   width: 14.13333335%;
   @include flexContent();
   flex-direction: column;
-  padding: 2px 0;
+  padding: px2vw(2px) 0;
   position: relative;
 }
 
@@ -924,7 +923,6 @@ export default {
   @include fontSize(16px);
   @include flexContent();
   margin-bottom: px2vw(5px);
-
 }
 
 .calendar_first_today {

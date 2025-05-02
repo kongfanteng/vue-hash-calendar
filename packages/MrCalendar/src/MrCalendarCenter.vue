@@ -457,7 +457,6 @@ export default {
   width: 100%;
   height: auto;
   background: none;
-  height: px2vw(710px);
   z-index: 1;
 }
 

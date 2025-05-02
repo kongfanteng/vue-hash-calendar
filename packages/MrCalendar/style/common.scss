@@ -48,8 +48,8 @@ $designSize: 1280px;
 
 // px转vw
 @function px2vw($size) {
-  // @return $size;
-  @return calc($size / $designSize * 100) + vw;
+  @return $size;
+  // @return calc($size / $designSize * 100) + vw;
 }
 
 @mixin fontSize($size, $isMobile: true) {
