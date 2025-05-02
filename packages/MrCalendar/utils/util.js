@@ -1,5 +1,5 @@
 /**
- * 日期格式化
+ * Date formatting
  * @param time
  * @param format
  * @returns {string}
@@ -32,7 +32,7 @@ export let formatDate = function (time, format, lang = 'CN') {
 };
 
 /**
- * 当前日期是否在两个日期范围之间
+ * current date between two date ranges
  * @param {*} curr
  * @param {*} min
  * @param {*} max

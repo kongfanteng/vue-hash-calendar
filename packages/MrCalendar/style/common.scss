@@ -1,10 +1,10 @@
 @use './colorVariable.scss' as colors;
 @forward './colorVariable.scss';
 
-// 设计稿尺寸
+// Design draft size
 $designSize: 720px;
 
-// 1px 实线边框
+// 1px solid border
 @mixin solidBorder($color: colors.$bg-color) {
   border: 1px solid $color;
 }
@@ -33,24 +33,24 @@ $designSize: 720px;
   border-top: px2vw(16px) solid $color;
 }
 
-// 浏览器私有前缀属性扩展
+// Browser private prefix property extension
 @mixin vendor($prop, $args) {
   -webkit-#{$prop}: $args;
   -moz-#{$prop}: $args;
   #{$prop}: $args;
 }
 
-// 文字溢出显示省略号
+// Text overflow with ellipsis
 @mixin textOverflow() {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-// px转vw
+// Convert px to vw
 @function px2vw($size) {
   // @return $size;
-  @return calc($size / $designSize * 100) + vw;
+  @return calc($size / $designSize * 100)+vw;
 }
 
 @mixin fontSize($size, $isMobile: true) {
