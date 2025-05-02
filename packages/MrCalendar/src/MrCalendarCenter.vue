@@ -1,221 +1,225 @@
 <template>
-  <div
-    class="hash-calendar calendar_inline"
-    v-show="isShowDatetimePicker"
-    :style="{
+  <div class="hash-calendar calendar_inline"
+       v-show="isShowDatetimePicker"
+       :style="{
       height: `${calendarContentHeight + calArrowHeight()}px`,
     }"
-    @click="close"
-  >
-    <div
-      class="calendar_content"
-      :style="{
+       @click="close">
+    <div class="calendar_content"
+         :style="{
         height: `${calendarContentHeight}px`,
         bottom: `${calArrowHeight()}px`,
       }"
-      @click.stop
-    >
-      <div class="calendar_title" v-if="isShowAction" ref="calendarTitle">
+         @click.stop>
+      <div class="calendar_title"
+           v-if="isShowAction"
+           ref="calendarTitle">
         <slot name="action">
           <div class="calendar_title_date">
-            <span
-              class="calendar_title_date_year"
-              :class="{ calendar_title_date_active: isShowCalendar }"
-              @click="showCalendar"
-              >{{
+            <span class="calendar_title_date_year"
+                  :class="{ calendar_title_date_active: isShowCalendar }"
+                  @click="showCalendar">{{
                 formatDate(
                   `${checkedDate.year}/${checkedDate.month + 1}/${
                     checkedDate.day
                   }`,
                   language.DEFAULT_DATE_FORMAT
                 )
-              }}</span
-            >
+              }}</span>
           </div>
-          <div
-            v-if="showTodayButton"
-            :class="{ today_disable: disabledDate(new Date()) }"
-            @click="today"
-          >
+          <div v-if="showTodayButton"
+               :class="{ today_disable: disabledDate(new Date()) }"
+               @click="today">
             <slot name="today">
               {{ language.TODAY }}
             </slot>
           </div>
         </slot>
       </div>
-      <MrCalendar
-        ref="calendar"
-        :show="isShowCalendar"
-        :isShowWeekView.sync="isShowWeek"
-        v-bind="{ ...$props, ...$attrs }"
-        :calendarTitleHeight="calendarTitleHeight"
-        :default-date="currDateTime"
-        @height="heightChange"
-        @touchstart="touchStart"
-        @touchmove="touchMove"
-        @touchend="touchEnd"
-        @slidechange="slideChange"
-        @change="dateChange"
-        @click="dateClick"
-      >
-        <template v-if="hasSlot('week')" slot="week" slot-scope="scope">
-          <slot name="week" :week="scope.week"> </slot>
+      <MrCalendar ref="calendar"
+                  :show="isShowCalendar"
+                  :isShowWeekView.sync="isShowWeek"
+                  v-bind="{ ...$props, ...$attrs }"
+                  :calendarTitleHeight="calendarTitleHeight"
+                  :default-date="currDateTime"
+                  @height="heightChange"
+                  @touchstart="touchStart"
+                  @touchmove="touchMove"
+                  @touchend="touchEnd"
+                  @slidechange="slideChange"
+                  @change="dateChange"
+                  @click="dateClick">
+        <template v-if="hasSlot('week')"
+                  slot="week"
+                  slot-scope="scope">
+          <slot name="week"
+                :week="scope.week"> </slot>
         </template>
-        <template v-if="hasSlot('day')" slot="day" slot-scope="scope">
-          <slot name="day" :date="scope.date" :extendAttr="scope.extendAttr">
+        <template v-if="hasSlot('day')"
+                  slot="day"
+                  slot-scope="scope">
+          <slot name="day"
+                :date="scope.date"
+                :extendAttr="scope.extendAttr">
           </slot>
         </template>
       </MrCalendar>
     </div>
-    <div
-      class="ctrl-img"
-      ref="arrow"
-      v-if="isShowArrowImg"
-      @click.stop="toggleWeek"
-      :style="{ 'margin-top': `${calendarContentHeight}px` }"
-    >
-      <slot name="arrow" :show="isShowWeek">
-        <img
-          class="ctrl-img-handler"
-          :src="isShowWeek ? arrowDownImg : arrowUpImg"
-        />
+    <div class="ctrl-img"
+         ref="arrow"
+         v-if="isShowArrowImg"
+         @click.stop="toggleWeek"
+         :style="{ 'margin-top': `${calendarContentHeight}px` }">
+      <slot name="arrow"
+            :show="isShowWeek">
+        <img class="ctrl-img-handler"
+             :src="isShowWeek ? arrowDownImg : arrowUpImg" />
       </slot>
     </div>
   </div>
 </template>
 
 <script>
-// @ts-check1
-import MrCalendar from './MrCalendar.vue'
-import { formatDate } from '../utils/util'
-import { ARROW_DOWN_IMG, ARROW_UP_IMG } from '../constant/img'
-import languageUtil from '../language'
+// @ts-checkx
+import MrCalendar from './MrCalendar.vue';
+import { formatDate } from '../utils/util';
+import { ARROW_DOWN_IMG, ARROW_UP_IMG } from '../constant/img';
+import languageUtil from '../language';
 
 const defaultDate = {
   year: new Date().getFullYear(),
   month: new Date().getMonth(),
   day: new Date().getDate(),
   hours: new Date().getHours(),
-  minutes: new Date().getMinutes()
-}
-
+  minutes: new Date().getMinutes(),
+};
+/**
+<MrCalendarCenter>
+  <template v-slot:action>
+    <div>Custom Content</div>
+  </template>
+  <template v-slot:today>
+    Return to Today
+  </template>
+</MrCalendarCenter>
+ */
 export default {
   props: {
-    // 主题颜色
+    // Theme color
     themeColor: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
-    // 是否支持点击日期区域快速切换年份
+    // Whether to support fast year switching by clicking the date area
     changeYearFast: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    // 是否显示 周月视图切换指示箭头
+    // Whether to show the arrow for switching between week and month views
     isShowArrow: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    // 是否展示周视图
+    // Whether to show the week view
     isShowWeekView: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    // 是否显示日历组件
+    // Whether to show the calendar component
     visible: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    // 是否显示日历组件操作栏
+    // Whether to show the calendar component's action bar
     isShowAction: {
       type: Boolean,
-      default: true
+      default: true,
     },
     pickerType: {
       type: String,
-      default: 'date'
+      default: 'date',
     },
     showTodayButton: {
-      // 是否显示返回今日按钮
+      // Whether to show the "Return to Today" button
       type: Boolean,
-      default: true
+      default: true,
     },
     defaultDatetime: {
-      // 默认时间
+      // Default time
       type: Date,
       default() {
-        return new Date()
-      }
+        return new Date();
+      },
     },
-    format: null, // 确认选择之后，返回的日期格式
-    // 日期下面的标记
+    format: null, // Date format returned after confirmation
+    // Marked dates
     markDate: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
-    // 禁用的日期
+    // Disabled dates
     disabledDate: {
       type: Function,
       default: () => {
-        return false
-      }
+        return false;
+      },
     },
-    // 使用的语言包
+    // Language pack to use
     lang: {
       type: String,
-      default: 'EN'
-    }
+      default: 'EN',
+    },
   },
   components: {
-    MrCalendar
+    MrCalendar,
   },
   name: 'MrCalendarCenter',
   data() {
     return {
       arrowDownImg: ARROW_DOWN_IMG,
       arrowUpImg: ARROW_UP_IMG,
-      language: {}, // 使用的语言包
-      checkedDate: defaultDate, // 被选中的日期
+      language: {}, // Language pack to use
+      checkedDate: defaultDate, // Selected date
       isShowWeek: false,
-      isShowCalendar: false, // 是否显示日历选择控件
-      calendarBodyHeight: 0, // 日历内容的高度
-      calendarTitleHeight: 0, // 日历组件标题高度
-      currDateTime: new Date(), // 当前日期
-      yearMonthType: 'date' // 年月选择面板默认展示类型
-    }
+      isShowCalendar: false, // Whether to show the calendar picker
+      calendarBodyHeight: 0, // Height of the calendar content
+      calendarTitleHeight: 0, // Height of the calendar title
+      currDateTime: new Date(), // Current date
+      yearMonthType: 'date', // Default type for year/month selection panel
+    };
   },
   mounted() {
-    this.isShowDatetimePicker = true
-    this.language = languageUtil[this.lang.toUpperCase()]
+    this.isShowDatetimePicker = true;
+    this.language = languageUtil[this.lang.toUpperCase()];
   },
   watch: {
     themeColor: {
       handler(val) {
-        val && this.changeThemeColor()
+        val && this.changeThemeColor();
       },
-      immediate: true
+      immediate: true,
     },
     defaultDatetime: {
       handler(val) {
         if (!(val instanceof Date)) {
           throw new Error(
-            'The calendar component\'s defaultDate must be date type!'
-          )
+            "The calendar component's defaultDate must be date type!"
+          );
         }
 
-        this.currDateTime = val
+        this.currDateTime = val;
       },
-      immediate: true
+      immediate: true,
     },
     isShowAction(flag) {
       if (!flag) {
-        this.calendarTitleHeight = 0
+        this.calendarTitleHeight = 0;
       } else {
         setTimeout(() => {
           this.calendarTitleHeight = this.$refs.calendarTitle
             ? this.$refs.calendarTitle.offsetHeight
-            : 0
-        })
+            : 0;
+        });
       }
     },
     checkedDate: {
@@ -224,219 +228,219 @@ export default {
           `${this.checkedDate.year}/${this.checkedDate.month + 1}/${
             this.checkedDate.day
           } ${this.checkedDate.hours}:${this.checkedDate.minutes}`
-        )
+        );
         if (this.format) {
-          date = formatDate(date, this.format, this.lang)
+          date = formatDate(date, this.format, this.lang);
         }
-        this.$emit('change', date)
+        this.$emit('change', date);
       },
-      deep: true
+      deep: true,
     },
     visible: {
       handler(val) {
-        this.isShowCalendar = val
+        this.isShowCalendar = val;
 
         setTimeout(() => {
           this.calendarTitleHeight = this.$refs.calendarTitle
             ? this.$refs.calendarTitle.offsetHeight
-            : 0
-        })
+            : 0;
+        });
       },
-      immediate: true
+      immediate: true,
     },
     isShowWeekView: {
       handler(val) {
-        this.isShowWeek = val
+        this.isShowWeek = val;
       },
-      immediate: true
+      immediate: true,
     },
     yearMonthType(val) {
-      this.$emit('calendarTypeChange', val)
+      this.$emit('calendarTypeChange', val);
     },
     isShowWeek(val) {
       if (val) {
-        this.yearMonthType = 'week'
+        this.yearMonthType = 'week';
       } else {
-        this.yearMonthType = 'date'
+        this.yearMonthType = 'date';
       }
-    }
+    },
   },
   computed: {
     isShowArrowImg() {
-      return this.isShowArrow
+      return this.isShowArrow;
     },
-    // 是否显示日期控件
+    // Whether to show the date picker
     isShowDatetimePicker: {
       get() {
-        return this.visible
+        return this.visible;
       },
       set(val) {
-        this.$emit('update:visible', val)
-      }
+        this.$emit('update:visible', val);
+      },
     },
-    // 日历组件的高度
+    // Height of the calendar component
     calendarContentHeight() {
-      return this.calendarBodyHeight + this.calendarTitleHeight
-    }
+      return this.calendarBodyHeight + this.calendarTitleHeight;
+    },
   },
   methods: {
-    // 判断是否有插槽
+    // Check if a slot exists
     hasSlot(slotName) {
-      return !!this.$scopedSlots[slotName]
+      return !!this.$scopedSlots[slotName];
     },
-    // 周视图开关
+    // Toggle week view
     toggleWeek() {
-      this.isShowWeek = !this.isShowWeek
+      this.isShowWeek = !this.isShowWeek;
 
-      if (this.isShowWeek) this.slideChange('up')
-      else this.slideChange('down')
+      if (this.isShowWeek) this.slideChange('up');
+      else this.slideChange('down');
     },
     today() {
-      if (this.disabledDate(new Date())) return
+      if (this.disabledDate(new Date())) return;
 
-      this.$refs.calendar.today()
+      this.$refs.calendar.today();
     },
     lastMonth() {
-      this.$refs.calendar.getLastMonth()
+      this.$refs.calendar.getLastMonth();
     },
     nextMonth() {
-      this.$refs.calendar.getNextMonth()
+      this.$refs.calendar.getNextMonth();
     },
     lastWeek() {
-      this.$refs.calendar.getLastMonth()
-      this.$refs.calendar.changeWeekView({ isNext: false })
+      this.$refs.calendar.getLastMonth();
+      this.$refs.calendar.changeWeekView({ isNext: false });
     },
     nextWeek() {
-      this.$refs.calendar.getNextMonth()
-      this.$refs.calendar.changeWeekView({ isNext: true })
+      this.$refs.calendar.getNextMonth();
+      this.$refs.calendar.changeWeekView({ isNext: true });
     },
     dateChange(date) {
-      date.hours = this.checkedDate.hours
-      date.minutes = this.checkedDate.minutes
-      this.checkedDate = date
+      date.hours = this.checkedDate.hours;
+      date.minutes = this.checkedDate.minutes;
+      this.checkedDate = date;
     },
     dateClick(date) {
-      date.hours = this.checkedDate.hours
-      date.minutes = this.checkedDate.minutes
-      this.checkedDate = date
+      date.hours = this.checkedDate.hours;
+      date.minutes = this.checkedDate.minutes;
+      this.checkedDate = date;
 
       let fDate = new Date(
         `${this.checkedDate.year}/${this.checkedDate.month + 1}/${
           this.checkedDate.day
         } ${this.checkedDate.hours}:${this.checkedDate.minutes}`
-      )
+      );
       if (this.format) {
-        fDate = formatDate(fDate, this.format, this.lang)
+        fDate = formatDate(fDate, this.format, this.lang);
       }
 
-      // 控制点击之后进入下一选择面板
+      // Control the next selection panel after clicking
       if (date.type) {
         switch (date.type) {
           case 'yearRange':
-            this.yearMonthType = 'year'
-            break
+            this.yearMonthType = 'year';
+            break;
           case 'year':
-            this.yearMonthType = 'month'
-            break
+            this.yearMonthType = 'month';
+            break;
           case 'month':
-            this.currDateTime = new Date(fDate)
-            this.yearMonthType = 'date'
-            break
+            this.currDateTime = new Date(fDate);
+            this.yearMonthType = 'date';
+            break;
         }
       }
 
-      this.$emit('click', fDate)
+      this.$emit('click', fDate);
     },
     timeChange(date) {
-      date.year = this.checkedDate.year
-      date.month = this.checkedDate.month
-      date.day = this.checkedDate.day
-      this.checkedDate = date
+      date.year = this.checkedDate.year;
+      date.month = this.checkedDate.month;
+      date.day = this.checkedDate.day;
+      this.checkedDate = date;
     },
-    
+
     show() {
-      this.isShowDatetimePicker = true
+      this.isShowDatetimePicker = true;
     },
     close() {
-      this.isShowDatetimePicker = false
+      this.isShowDatetimePicker = false;
     },
-    // 小于10，在前面补0
+    // Add a leading zero for numbers less than 10
     fillNumber(val) {
-      return val > 9 ? val : '0' + val
+      return val > 9 ? val : '0' + val;
     },
     formatDate(time, format) {
-      return formatDate(time, format, this.lang)
+      return formatDate(time, format, this.lang);
     },
-    // 显示日历控件
+    // Show the calendar picker
     showCalendar() {
       if (this.isShowCalendar) {
-        this.showYearMonthPicker()
+        this.showYearMonthPicker();
       } else {
-        this.yearMonthType = 'date'
+        this.yearMonthType = 'date';
       }
-      this.isShowCalendar = true
+      this.isShowCalendar = true;
     },
-    // 显示年月选择面板
+    // Show the year/month selection panel
     showYearMonthPicker() {
-      if (!this.changeYearFast || this.isShowWeek) return
+      if (!this.changeYearFast || this.isShowWeek) return;
 
       if (this.yearMonthType === 'date') {
-        this.yearMonthType = 'month'
+        this.yearMonthType = 'month';
       } else if (this.yearMonthType === 'month') {
-        this.yearMonthType = 'year'
+        this.yearMonthType = 'year';
       } else if (this.yearMonthType === 'year') {
-        this.yearMonthType = 'yearRange'
+        this.yearMonthType = 'yearRange';
       } else {
-        this.yearMonthType = 'date'
+        this.yearMonthType = 'date';
       }
     },
-    // 高度变化
+    // Height change
     heightChange(height) {
-      this.calendarBodyHeight = height
+      this.calendarBodyHeight = height;
     },
-    // 根据传入的 arrow slot 计算高度
+    // Calculate height based on the arrow slot
     calArrowHeight() {
       const height =
         (this.isShowArrowImg &&
           this.$refs.arrow &&
           this.$refs.arrow.offsetHeight) ||
-        0
-      return height
+        0;
+      return height;
     },
-    // 切换主题颜色
+    // Change theme color
     changeThemeColor() {
-      const themeColorKeys = Object.keys(this.themeColor || {})
+      const themeColorKeys = Object.keys(this.themeColor || {});
 
       if (themeColorKeys.length) {
-        let cssText = ''
+        let cssText = '';
 
         themeColorKeys.forEach((k) => {
-          cssText += `--hash-calendar-${k}: ${this.themeColor[k]};`
-        })
+          cssText += `--hash-calendar-${k}: ${this.themeColor[k]};`;
+        });
 
         this.$nextTick(() => {
-          document.querySelector('.hash-calendar').style.cssText = cssText
-        })
+          document.querySelector('.hash-calendar').style.cssText = cssText;
+        });
       }
     },
-    // 监听手指开始滑动事件
+    // Listen to touch start event
     touchStart(event) {
-      this.$emit('touchstart', event)
+      this.$emit('touchstart', event);
     },
-    // 监听手指开始滑动事件
+    // Listen to touch move event
     touchMove(event) {
-      this.$emit('touchmove', event)
+      this.$emit('touchmove', event);
     },
-    // 监听手指开始滑动事件
+    // Listen to touch end event
     touchEnd(event) {
-      this.$emit('touchend', event)
+      this.$emit('touchend', event);
     },
-    // 滑动方向改变
+    // Slide direction change
     slideChange(direction) {
-      this.$emit('slidechange', direction)
-    }
-  }
-}
+      this.$emit('slidechange', direction);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -499,7 +503,6 @@ export default {
 .calendar_title_date_time {
   margin-left: px2vw(20px);
 }
-
 
 .today_disable {
   @include disabledFontColor('color');

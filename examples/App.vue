@@ -1,7 +1,7 @@
 <template>
   <div class="body">
-      <!-- :isShowArrow="true" -->
     <MrCalendarCenter
+      :isShowArrow="true"
       class="vue-hash-calendar"
       :changeYearFast="true"
       :isShowWeekView="false"

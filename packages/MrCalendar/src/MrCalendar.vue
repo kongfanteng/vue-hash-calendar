@@ -871,6 +871,9 @@ export default {
   background: white;
   @include viceFontColor('color');
   z-index: 2;
+  .calendar_day {
+    color: var(--Grey-Color-Grey-10, #141414);
+  }
 }
 
 .calendar_group {
@@ -890,7 +893,7 @@ export default {
 .calendar_group_li {
   position: absolute;
   top: 0;
-  left: px2vw(4px);
+  // left: px2vw(4px);
   bottom: 0;
   right: 0;
   height: 100%;
@@ -923,6 +926,9 @@ export default {
   @include fontSize(16px);
   @include flexContent();
   margin-bottom: px2vw(5px);
+  color: var(--Grey-Color-Grey-6, #737373);
+  font-style: normal;
+  font-weight: 500;
 }
 
 .calendar_first_today {
@@ -952,10 +958,10 @@ export default {
 }
 
 .calendar_dot {
-  width: 6px;
-  height: 6px;
+  width: px2vw(6px);
+  height: px2vw(6px);
   border-radius: 50%;
   position: absolute;
-  bottom: px2vw(12px);
+  bottom: px2vw(10px);
 }
 </style>
