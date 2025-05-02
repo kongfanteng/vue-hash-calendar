@@ -1,6 +1,7 @@
 <template>
   <div class="body">
     <vue-hash-calendar
+      class="vue-hash-calendar"
       :isShowArrow="true"
       :changeYearFast="true"
       :isShowWeekView="false"
@@ -33,24 +34,16 @@
       @change="dateChange"
     >
     </vue-hash-calendar>
-
-
-    <!-- <FirstDayDemo />
-    <SlotDemo />
-    <TouchDemo /> -->
   </div>
 </template>
 
 <script>
-import FirstDayDemo from './FirstDayDemo.vue'
-import SlotDemo from './SlotDemo.vue'
-import TouchDemo from './TouchDemo.vue'
 
 const currentYear = new Date().getFullYear()
 
 export default {
   name: 'demo',
-  components: {FirstDayDemo, SlotDemo, TouchDemo},
+  components: {},
   data() {
     return {
       themeColor: {
@@ -61,8 +54,8 @@ export default {
       isShowTips: false, // 是否显示下载提示
       defaultDatetime: new Date(),
       markDate: [
-        `${currentYear}/11/24`,
-        `${currentYear}/11/22`,
+        `${currentYear}/05/24`,
+        `${currentYear}/05/22`,
         {
           color: 'red',
           type: 'dot',
@@ -201,8 +194,9 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-.hhhh {
-  background: red;
+<style lang="scss" scoped>
+@use '../packages/vueHashCalendar/style/common.scss';
+.vue-hash-calendar {
+  width: common.px2vw(450px) !important;
 }
 </style>

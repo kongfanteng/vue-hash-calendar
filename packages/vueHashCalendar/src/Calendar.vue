@@ -1,70 +1,58 @@
 <template>
-  <div
-    class="calendar_body"
-    :style="{ 'margin-top': calendarTitleHeight + 'px' }"
-    v-show="show"
-  >
-    <div class="calendar_week" ref="weekTitle">
-      <div class="calendar_item" v-for="(item, index) in calendarWeek" :key="`${item}-${index}`">
+  <div class="calendar_body"
+       :style="{ 'margin-top': calendarTitleHeight + 'px' }"
+       v-show="show">
+    <div class="calendar_week"
+         ref="weekTitle">
+      <div class="calendar_item"
+           v-for="(item, index) in calendarWeek"
+           :key="`${item}-${index}`">
         <p class="calendar_day">
-          <slot name="week" :week="item">
+          <slot name="week"
+                :week="item">
             {{ item }}
           </slot>
         </p>
       </div>
     </div>
-    <div
-      class="calendar_group"
-      :style="{ height: `${calendarGroupHeight}px` }"
-      ref="calendar"
-      @touchstart="touchStart"
-      @touchmove="touchMove"
-      @touchend="touchEnd"
-    >
-      <ul
-        :style="{ transform: `translate3d(${-translateIndex * 100}%, 0, 0)` }"
-      >
-        <li
-          class="calendar_group_li"
-          v-for="(item, i) in calendarOfMonthShow"
-          :key="i"
-          :style="{
+    <div class="calendar_group"
+         :style="{ height: `${calendarGroupHeight}px` }"
+         ref="calendar"
+         @touchstart="touchStart"
+         @touchmove="touchMove"
+         @touchend="touchEnd">
+      <ul :style="{ transform: `translate3d(${-translateIndex * 100}%, 0, 0)` }">
+        <li class="calendar_group_li"
+            v-for="(item, i) in calendarOfMonthShow"
+            :key="i"
+            :style="{
             transform: `translate3d(${
               (i - 1 + translateIndex + (isTouching ? touch.x : 0)) * 100
             }%, ${calendarY}px, 0)`,
             transitionDuration: `${isTouching ? 0 : transitionDuration}s`,
-          }"
-        >
-          <div
-            class="calendar_item"
-            ref="calendarItem"
-            v-for="(date, j) in item"
-            :class="
+          }">
+          <div class="calendar_item"
+               ref="calendarItem"
+               v-for="(date, j) in item"
+               :class="
               formatDisabledDate(date) &&
               (disabledClassName || 'calendar_item_disable')
             "
-            :key="i + j"
-            @click="clickCalendarDay(date, j)"
-          >
-          <!-- isFirstDayOfMonth(date, i) &&
-                  (firstDayOfMonthClassName || 'calendar_first_today'), -->
-            <div
-              class="calendar_day"
-              :style="{ 'border-color': markDateColor(date, 'circle') }"
-              :class="[
-                
+               :key="i + j"
+               @click="clickCalendarDay(date, j)">
+            <div class="calendar_day"
+                 :style="{ 'border-color': markDateColor(date, 'circle') }"
+                 :class="[
                 isToday(date) && (todayClassName || 'calendar_day_today'),
                 isCheckedDay(date) &&
                   (checkedDayClassName || 'calendar_day_checked'),
                 isNotCurrentMonthDay(date, i) &&
                   (notCurrentMonthDayClassName || 'calendar_day_not'),
-                markDateColor(date, 'circle') && 'calendar_mark_circle',
-              ]"
-            >
-              <slot
-                name="day"
-                :date="date"
-                :extendAttr="{
+              ]">
+              <!-- markDateColor(date, 'circle') && 'calendar_mark_circle', -->
+              <slot name="day"
+                    :date="date"
+                    :extendAttr="{
                   isMarked: !!(
                     markDateColor(date, 'circle') || markDateColor(date, 'dot')
                   ),
@@ -73,15 +61,12 @@
                   isChecked: isCheckedDay(date),
                   isCurrentMonthDay: !isNotCurrentMonthDay(date, i),
                   isFirstDayOfMonth: isFirstDayOfMonth(date, i),
-                }"
-              >
+                }">
                 {{ date.day }}
               </slot>
             </div>
-            <div
-              :style="{ background: markDateColor(date, 'dot') }"
-              class="calendar_dot"
-            ></div>
+            <div :style="{ background: markDateColor(date, 'dot', isCheckedDay(date)) }"
+                 class="calendar_dot"></div>
           </div>
         </li>
       </ul>
@@ -90,7 +75,12 @@
 </template>
 
 <script>
-import { calculateCalendarOfMonth, daysOfMonth, formatDate, isDateInRange } from '../utils/util';
+import {
+  calculateCalendarOfMonth,
+  daysOfMonth,
+  formatDate,
+  isDateInRange,
+} from '../utils/util';
 import languageUtil from '../language';
 
 let timer = null;
@@ -194,7 +184,7 @@ export default {
         return false;
       },
     },
-    // 禁止滑动，可选值【left, right, up, down, horizontal, vertical, true, false】
+    // 禁止滑动，可选值 [left, right, up, down, horizontal, vertical, true, false]
     disabledScroll: {
       type: [Boolean, String],
       default: false,
@@ -202,7 +192,7 @@ export default {
     // 使用的语言包
     lang: {
       type: String,
-      default: 'CN',
+      default: 'EN',
     },
   },
   data() {
@@ -269,7 +259,8 @@ export default {
         val.forEach((item, index) => {
           if (!item.color) {
             let obj = {};
-            obj.color = '#1c71fb';
+            obj.color = 'var(--Main-Color-Glod-Main-Color-4, #C2A15B)';
+            // fill: var(--Main-Color-Glod-Main-Color-4, #C2A15B);
             if (typeof item === 'string' || typeof item === 'number') {
               item = [item];
             }
@@ -303,7 +294,7 @@ export default {
       handler(val) {
         if (!(val instanceof Date)) {
           throw new Error(
-            'The calendar component\'s defaultDate must be date type!'
+            "The calendar component's defaultDate must be date type!"
           );
         }
 
@@ -428,11 +419,16 @@ export default {
         this.weekStartIndex,
         this.isShowNotCurrentMonthDay
       );
-      let secondMonth = calculateCalendarOfMonth(year, month, this.weekStartIndex,
-        this.isShowNotCurrentMonthDay);
+      let secondMonth = calculateCalendarOfMonth(
+        year,
+        month,
+        this.weekStartIndex,
+        this.isShowNotCurrentMonthDay
+      );
       let thirdMonth = calculateCalendarOfMonth(
         this.nextMonthYear,
-        this.nextMonth,this.weekStartIndex,
+        this.nextMonth,
+        this.weekStartIndex,
         this.isShowNotCurrentMonthDay
       );
 
@@ -768,15 +764,16 @@ export default {
       );
     },
     // 当前日期是否需要标记
-    markDateColor(date, type) {
+    markDateColor(date, type, isChecked = false) {
       let dateString = `${date.year}/${this.fillNumber(
         date.month + 1
       )}/${this.fillNumber(date.day)}`;
       let markDateTypeString = this.markDateTypeObj[dateString] || '';
 
       if (markDateTypeString.indexOf(type) === -1) return;
-
-      return this.markDateColorObj[dateString];
+      return isChecked
+        ? 'var(--Grey-Color-Grey-0, #FFF)'
+        : this.markDateColorObj[dateString];
     },
     formatDisabledDate(date) {
       if (!date.day) return;
@@ -911,6 +908,7 @@ export default {
   @include flexContent();
   flex-direction: column;
   padding: 2px 0;
+  position: relative;
 }
 
 .calendar_item_disable {
@@ -956,8 +954,10 @@ export default {
 }
 
 .calendar_dot {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
+  position: absolute;
+  bottom: 12px;
 }
 </style>

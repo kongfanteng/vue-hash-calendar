@@ -1,7 +1,7 @@
 @import './colorVariable.scss';
 
 // 设计稿尺寸
-$designSize: 750px;
+$designSize: 1280px;
 
 // 1px 实线边框
 @mixin solidBorder($color: $bg-color) {
