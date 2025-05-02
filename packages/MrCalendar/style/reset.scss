@@ -1,3 +1,4 @@
+@use './common.scss';
 html,
 body {
     .hash-calendar {
@@ -7,7 +8,7 @@ body {
         margin: 0;
         padding: 0;
         overflow-x: hidden;
-        font-size: 4vw;
+        font-size: common.px2vw(16px);
         background: #fff;
         color: #191919
     }

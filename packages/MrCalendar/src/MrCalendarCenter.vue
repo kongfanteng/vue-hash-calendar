@@ -34,7 +34,6 @@
           </div>
           <div
             v-if="showTodayButton"
-            class="calendar_confirm"
             :class="{ today_disable: disabledDate(new Date()) }"
             @click="today"
           >
@@ -42,7 +41,6 @@
               {{ language.TODAY }}
             </slot>
           </div>
-          
         </slot>
       </div>
       <MrCalendar
@@ -481,18 +479,17 @@ export default {
   width: 100%;
   left: 0;
   top: 0;
-  @include bgColor('background');
-  @include borderBottom();
   display: flex;
   align-items: center;
   justify-content: space-between;
   z-index: 1;
+  height: px2vw(56px);
+  padding: px2vw(12px) px2vw(24px);
 }
 
 .calendar_title_date {
   @include viceFontColor('color');
   background: white;
-  padding: px2vw(30px) px2vw(15px);
 }
 
 .calendar_title_date_active {
@@ -504,10 +501,6 @@ export default {
   margin-left: px2vw(20px);
 }
 
-.calendar_confirm {
-  @include mainColor('color');
-  margin-right: px2vw(34px);
-}
 
 .today_disable {
   @include disabledFontColor('color');

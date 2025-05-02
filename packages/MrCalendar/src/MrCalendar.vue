@@ -49,7 +49,6 @@
                 isNotCurrentMonthDay(date, i) &&
                   (notCurrentMonthDayClassName || 'calendar_day_not'),
               ]">
-              <!-- markDateColor(date, 'circle') && 'calendar_mark_circle', -->
               <slot name="day"
                     :date="date"
                     :extendAttr="{
@@ -919,12 +918,13 @@ export default {
 }
 
 .calendar_day {
-  width: px2vw(60px);
-  height: px2vw(60px);
+  width: px2vw(40px);
+  height: px2vw(40px);
   border-radius: 50%;
-  @include fontSize(28px);
+  @include fontSize(16px);
   @include flexContent();
   margin-bottom: px2vw(5px);
+
 }
 
 .calendar_first_today {
@@ -958,6 +958,6 @@ export default {
   height: 6px;
   border-radius: 50%;
   position: absolute;
-  bottom: 12px;
+  bottom: px2vw(12px);
 }
 </style>
