@@ -15,7 +15,38 @@
            v-if="isShowAction"
            ref="calendarTitle">
         <slot name="action">
-          <div class="action_box">
+          <div class="action_box_card"
+               v-if="calendarType === 'card'">
+            <div class="calendar_title_date">
+              <span :class="{ calendar_title_date_active: isShowCalendar }"
+                    @click="showCalendar">{{
+                formatDate(
+                  `${checkedDate.year}/${checkedDate.month + 1}/${
+                    checkedDate.day
+                  }`,
+                  language.DEFAULT_DATE_FORMAT
+                )
+              }}</span>
+            </div>
+            <div v-if="showTodayButton"
+                 class="action_today"
+                 :class="{ today_disable: disabledDate(new Date()) || isToday }"
+                 @click="today">
+              <slot name="today">
+                {{ language.TODAY }}
+              </slot>
+            </div>
+            <div class="calendar_last_next">
+              <img class="calendar_title_icon"
+                   :src="arrowLeftImg"
+                   @click="changeView('last')" />
+              <img @click="changeView('next')"
+                   class="calendar_title_icon"
+                   :src="arrowRightImg" />
+            </div>
+          </div>
+          <div class="action_box"
+               v-else>
             <div v-if="showTodayButton"
                  class="action_today"
                  :class="{ today_disable: disabledDate(new Date()) || isToday }"
@@ -38,15 +69,16 @@
                   language.DEFAULT_DATE_FORMAT
                 )
               }}</span>
-              <slot name="setting">
-                <img @click="changeView('next')"
-                     class="calendar_title_icon"
-                     :src="arrowRightImg" />
-              </slot>
+              <img @click="changeView('next')"
+                   class="calendar_title_icon"
+                   :src="arrowRightImg" />
             </div>
-            <img class="calendar_title_seting"
-                 :src="settingImg"
-                 @click="$emit('setting')" />
+            <slot name="setting">
+              <img class="calendar_title_seting"
+                   :src="settingImg"
+                   @click="$emit('setting')" />
+            </slot>
+
           </div>
         </slot>
       </div>
@@ -119,6 +151,10 @@ const defaultDate = {
  */
 export default {
     props: {
+        calendarType: {
+            type: String,
+            default: 'center' // center, card
+        },
         // Theme color
         themeColor: {
             type: Object,
@@ -243,7 +279,7 @@ export default {
                     }`
                 );
                 if (this.format) {
-                    date = formatDate(date, this.format, this.lang);
+                    date = formatDate(date, this.format);
                 }
                 this.$emit('change', date);
             },
@@ -503,11 +539,35 @@ export default {
     left: 0;
     top: 0;
     z-index: 1;
-    height: common.px2vw(56px);
 }
 .action_box {
+    height: common.px2vw(56px);
     padding: common.px2vw(12px) common.px2vw(24px);
     @include common.flexContent(center, space-between);
+}
+.action_box_card {
+    height: common.px2vw(40px);
+    padding: 0 common.px2vw(24px);
+    @include common.flexContent(center, space-between);
+    .calendar_title_date {
+        position: relative;
+        color: var(--Grey-Color-Grey-10, #141414);
+        font-size: common.px2vw(20px);
+        font-weight: 500;
+        margin-right: auto;
+        &::before {
+            content: '';
+            width: common.px2vw(156px);
+            height: common.px2vw(8px);
+            display: block;
+            position: absolute;
+            bottom: common.px2vw(-6px);
+            left: 0;
+            background: linear-gradient(90deg, #fff2df 0%, #f0c978 100%);
+            border-radius: 10px;
+            z-index: -1;
+        }
+    }
 }
 .action_today {
     border-radius: common.px2vw(360px);
@@ -532,15 +592,19 @@ export default {
 
 .calendar_title_date {
     @include common.viceFontColor('color');
-    background: white;
 }
 .calendar_title_icon {
-    width: 16px;
-    height: 16px;
+    width: common.px2vw(16px);
+    height: common.px2vw(16px);
+}
+.calendar_last_next {
+    margin-left: common.px2vw(24px);
+    @include common.flexContent();
+    gap: common.px2vw(16px);
 }
 .calendar_title_seting {
-    width: 24px;
-    height: 24px;
+    width: common.px2vw(24px);
+    height: common.px2vw(24px);
     display: block;
 }
 .calendar_title_date_year {

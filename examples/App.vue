@@ -26,6 +26,7 @@
                       :theme-color="themeColor"
                       format="YY/MM/DD hh:mm"
                       lang="en"
+                      calendarType="card"
                       @calendarTypeChange="calendarTypeChange"
                       @confirm="dateConfirm"
                       @slidechange="slidechange"
