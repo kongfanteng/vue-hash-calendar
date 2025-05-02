@@ -18,12 +18,12 @@
 export default {
     name: 'ScrollContainer',
     props: {
-        // 禁止滑动，可选值 [left, right, up, down, horizontal, vertical, true, false]
+        // Disable scrolling, options [left, right, up, down, horizontal, vertical, true, false]
         disabledScroll: {
             type: [Boolean, String],
             default: false
         },
-        // 日历数据
+        // Calendar data
         calendarData: {
             type: Array,
             default: () => []
@@ -31,20 +31,20 @@ export default {
     },
     data() {
         return {
-            translateIndex: 0, // 用于计算上下偏移的距离
-            transitionDuration: 0.3, // 动画持续时间
+            translateIndex: 0, // Used to calculate the offset distance
+            transitionDuration: 0.3, // Animation duration
             touch: {
                 x: 0,
                 y: 0
-            }, // 本次touch事件，横向，纵向滑动的距离
-            isTouching: false, // 是否正在滑动
-            touchStartPositionX: null, // 开始滑动x轴的值
-            touchStartPositionY: null, // 开始滑动时y轴的值
-            calendarY: 0 // 日历相对于Y轴的位置
+            }, // The distance of horizontal and vertical sliding in this touch event
+            isTouching: false, // Whether it is currently sliding
+            touchStartPositionX: null, // The starting position of the X-axis
+            touchStartPositionY: null, // The starting position of the Y-axis
+            calendarY: 0 // The position of the calendar relative to the Y-axis
         };
     },
     methods: {
-        // 监听手指开始滑动事件
+        // Listen to the touch start event
         touchStart(event) {
             this.$emit('touchstart', event);
 
@@ -55,7 +55,7 @@ export default {
             };
             this.isTouching = true;
         },
-        // 监听手指移动事件
+        // Listen to the touch move event
         touchMove(event) {
             this.$emit('touchmove', event);
 
@@ -75,7 +75,7 @@ export default {
 
             this.setDisabledScrollDirection();
         },
-        // 监听touch结束事件
+        // Listen to the touch end event
         touchEnd(e) {
             this.$emit('touchend', e);
 
@@ -104,7 +104,7 @@ export default {
                 };
             }
         },
-        // 是否可以滑动
+        // Check if scrolling is allowed
         isCanScroll(dire) {
             const scrollObj = {
                 up: [true, 'up', 'vertical'],
@@ -116,7 +116,7 @@ export default {
             let checkedScrollArr = scrollObj[dire];
             return !checkedScrollArr.some(item => item === this.disabledScroll);
         },
-        // 设置禁止滑动的方向
+        // Set the direction of disabled scrolling
         setDisabledScrollDirection() {
             this.touch.x < 0 && !this.isCanScroll('left') && (this.touch.x = 0);
             this.touch.x > 0 && !this.isCanScroll('right') && (this.touch.x = 0);

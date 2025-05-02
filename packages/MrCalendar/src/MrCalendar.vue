@@ -746,12 +746,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../style/common.scss';
+@use '../style/common.scss';
 
 .calendar_body {
     position: relative;
     width: 100%;
-    margin-top: px2vw(100px);
+    margin-top: common.px2vw(100px);
 }
 
 .calendar_week {
@@ -759,9 +759,9 @@ export default {
     width: 100%;
     left: 0;
     top: 0;
-    @include flexAlign();
+    @include common.flexAlign();
     background: white;
-    @include viceFontColor('color');
+    @include common.viceFontColor('color');
     z-index: 2;
     .calendar_day {
         color: var(--Grey-Color-Grey-10, #141414);
@@ -770,7 +770,7 @@ export default {
 
 .calendar_group {
     position: absolute;
-    top: px2vw(49px);
+    top: common.px2vw(49px);
     left: 0;
     bottom: 0;
     right: 0;
@@ -785,12 +785,12 @@ export default {
 .calendar_group_li {
     position: absolute;
     top: 0;
-    // left: px2vw(4px);
+    // left: common.px2vw(4px);
     bottom: 0;
     right: 0;
     height: 100%;
     width: 100%;
-    @include flexAlign();
+    @include common.flexAlign();
     flex-wrap: wrap;
     background: white;
     will-change: transform;
@@ -798,62 +798,62 @@ export default {
 
 .calendar_item {
     width: 14.13333335%;
-    @include flexContent();
+    @include common.flexContent();
     flex-direction: column;
-    padding: px2vw(2px) 0;
+    padding: common.px2vw(2px) 0;
     position: relative;
 }
 
 .calendar_item_disable {
-    @include disabledBgColor('background-color');
+    @include common.disabledBgColor('background-color');
     opacity: 1;
     cursor: not-allowed;
-    @include disabledFontColor('color');
+    @include common.disabledFontColor('color');
 }
 
 .calendar_day {
-    width: px2vw(40px);
-    height: px2vw(40px);
+    width: common.px2vw(40px);
+    height: common.px2vw(40px);
     border-radius: 50%;
-    @include fontSize(16px);
-    @include flexContent();
-    margin-bottom: px2vw(5px);
+    @include common.fontSize(16px);
+    @include common.flexContent();
+    margin-bottom: common.px2vw(5px);
     color: var(--Grey-Color-Grey-6, #737373);
     font-style: normal;
     font-weight: 500;
 }
 
 .calendar_first_today {
-    @include mainColor('color');
+    @include common.mainColor('color');
 
     span {
-        @include fontSize(20px);
-        margin-top: px2vw(3px);
+        @include common.fontSize(20px);
+        margin-top: common.px2vw(3px);
     }
 }
 
 .calendar_day_today {
-    @include bgColor('background');
+    @include common.bgColor('background');
 }
 
 .calendar_mark_circle {
-    @include mainColor('border');
+    @include common.mainColor('border');
 }
 
 .calendar_day_not {
-    @include disabledFontColor('color');
+    @include common.disabledFontColor('color');
 }
 
 .calendar_day_checked {
-    @include mainColor('background');
+    @include common.mainColor('background');
     color: white;
 }
 
 .calendar_dot {
-    width: px2vw(6px);
-    height: px2vw(6px);
+    width: common.px2vw(6px);
+    height: common.px2vw(6px);
     border-radius: 50%;
     position: absolute;
-    bottom: px2vw(10px);
+    bottom: common.px2vw(10px);
 }
 </style>

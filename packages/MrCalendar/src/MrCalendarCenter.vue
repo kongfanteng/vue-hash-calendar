@@ -435,7 +435,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../style/common.scss';
+@use '../style/common.scss';
 
 .hash-calendar {
     position: fixed;
@@ -461,10 +461,10 @@ export default {
     left: 0;
     bottom: 0;
     display: flex;
-    padding-bottom: px2vw(26px);
+    padding-bottom: common.px2vw(26px);
     flex-wrap: wrap;
     background: white;
-    height: px2vw(710px);
+    height: common.px2vw(710px);
     overflow: hidden;
 }
 
@@ -477,26 +477,26 @@ export default {
     align-items: center;
     justify-content: space-between;
     z-index: 1;
-    height: px2vw(56px);
-    padding: px2vw(12px) px2vw(24px);
+    height: common.px2vw(56px);
+    padding: common.px2vw(12px) px2vw(24px);
 }
 
 .calendar_title_date {
-    @include viceFontColor('color');
+    @include common.viceFontColor('color');
     background: white;
 }
 
 .calendar_title_date_active {
-    @include mainFontColor('color');
+    @include common.mainFontColor('color');
     font-weight: bold;
 }
 
 .calendar_title_date_time {
-    margin-left: px2vw(20px);
+    margin-left: common.px2vw(20px);
 }
 
 .today_disable {
-    @include disabledFontColor('color');
+    @include common.disabledFontColor('color');
 }
 
 .ctrl-img {

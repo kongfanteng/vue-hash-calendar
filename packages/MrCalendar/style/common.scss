@@ -1,34 +1,35 @@
-@import './colorVariable.scss';
+@use './colorVariable.scss' as colors;
+@forward './colorVariable.scss';
 
 // 设计稿尺寸
-$designSize: 1280px;
+$designSize: 720px;
 
 // 1px 实线边框
-@mixin solidBorder($color: $bg-color) {
+@mixin solidBorder($color: colors.$bg-color) {
   border: 1px solid $color;
 }
 
-@mixin borderBottom($color: $bg-color) {
+@mixin borderBottom($color: colors.$bg-color) {
   border-bottom: 1px solid $color;
 }
 
-@mixin borderTop($color: $bg-color) {
+@mixin borderTop($color: colors.$bg-color) {
   border-top: 1px solid $color;
 }
 
-@mixin borderLeft($color: $bg-color) {
+@mixin borderLeft($color: colors.$bg-color) {
   border-left: 1px solid $color;
 }
 
-@mixin borderRight($color: $bg-color) {
+@mixin borderRight($color: colors.$bg-color) {
   border-right: 1px solid $color;
 }
 
-@mixin bottomLine($color: $bg-color) {
+@mixin bottomLine($color: colors.$bg-color) {
   border-bottom: px2vw(16px) solid $color;
 }
 
-@mixin topLine($color: $bg-color) {
+@mixin topLine($color: colors.$bg-color) {
   border-top: px2vw(16px) solid $color;
 }
 
@@ -48,8 +49,8 @@ $designSize: 1280px;
 
 // px转vw
 @function px2vw($size) {
-  @return $size;
-  // @return calc($size / $designSize * 100) + vw;
+  // @return $size;
+  @return calc($size / $designSize * 100) + vw;
 }
 
 @mixin fontSize($size, $isMobile: true) {
