@@ -56,7 +56,9 @@ $designSize: 1280px;
   @if $isMobile {
     font-size: $size;
     font-size: px2vw($size);
-  } @else {
+  }
+
+  @else {
     font-size: $size;
   }
 }

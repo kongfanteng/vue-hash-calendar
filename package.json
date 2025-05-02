@@ -1,17 +1,14 @@
 {
-  "name": "vue-hash-calendar",
+  "name": "vue-hash-calendar-modify",
   "version": "1.1.21",
   "author": "HashTang",
   "repository": {
     "type": "git",
-    "url": "https://github.com/TangSY/vue-hash-calendar.git"
+    "url": ""
   },
-  "bugs": {
-    "url": "https://github.com/TangSY/vue-hash-calendar/issues"
-  },
-  "homepage": "https://www.hxkj.vip",
+  "homepage": "",
   "license": "MIT",
-  "description": "vue 周 月 时间选择器",
+  "description": "Vue Time Picker",
   "main": "lib/vue-hash-calendar.umd.min.js",
   "keyword": "vue-hash-calendar calendar date-picker datetime-picker time-picker week-picker",
   "private": false,

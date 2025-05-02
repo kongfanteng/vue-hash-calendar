@@ -1,7 +1,4 @@
-import EN from './en'
-import AR from './ar'
+import EN from './en';
+import AR from './ar';
 
-export default {
-  EN,
-  AR
-}
+export default { EN, AR};

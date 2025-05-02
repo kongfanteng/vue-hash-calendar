@@ -21,10 +21,12 @@ $default-disabled-font-color: var(--Grey-Color-Grey-3, #D9D9D9);
 
 // 根据属性生成不同的样式表达式
 @mixin genColor($prop, $gen-color, $gen-default-color) {
-    @if $prop == 'border' {
+    @if $prop =='border' {
         #{$prop}: 1px solid $gen-default-color;
         #{$prop}: 1px solid $gen-color;
-    } @else {
+    }
+
+    @else {
         #{$prop}: $gen-default-color;
         #{$prop}: $gen-color;
     }
@@ -34,18 +36,23 @@ $default-disabled-font-color: var(--Grey-Color-Grey-3, #D9D9D9);
 @mixin mainColor($prop) {
     @include genColor($prop, $main-color, $default-main-color);
 }
+
 @mixin bgColor($prop) {
     @include genColor($prop, $bg-color, $default-bg-color);
 }
+
 @mixin mainFontColor($prop) {
     @include genColor($prop, $main-font-color, $default-main-font-color);
 }
+
 @mixin viceFontColor($prop) {
     @include genColor($prop, $vice-font-color, $default-vice-font-color);
 }
+
 @mixin disabledBgColor($prop) {
     @include genColor($prop, $disabled-bg-color, $default-disabled-bg-color);
 }
+
 @mixin disabledFontColor($prop) {
     @include genColor($prop, $disabled-font-color, $default-disabled-font-color);
 }
