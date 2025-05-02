@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 import './reset.css';
-import vueHashCalendar from '../packages/index'
+import MrCalendarCenter from '../packages/index'
 
-Vue.use(vueHashCalendar)
+Vue.use(MrCalendarCenter)
 
 Vue.config.productionTip = false
 

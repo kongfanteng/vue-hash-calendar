@@ -1,6 +1,6 @@
 <template>
   <div class="body">
-    <vue-hash-calendar
+    <MrCalendarCenter
       class="vue-hash-calendar"
       :isShowArrow="true"
       :changeYearFast="true"
@@ -33,7 +33,7 @@
       @click="dateClick"
       @change="dateChange"
     >
-    </vue-hash-calendar>
+    </MrCalendarCenter>
   </div>
 </template>
 
@@ -195,7 +195,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@use '../packages/vueHashCalendar/style/common.scss';
+@use '../packages/MrCalendar/style/common.scss';
 .vue-hash-calendar {
   width: common.px2vw(450px) !important;
 }

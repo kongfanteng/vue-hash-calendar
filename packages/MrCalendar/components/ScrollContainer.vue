@@ -18,7 +18,7 @@
 export default {
   name: 'ScrollContainer',
   props: {
-    // 禁止滑动，可选值【left, right, up, down, horizontal, vertical, true, false】
+    // 禁止滑动，可选值 [left, right, up, down, horizontal, vertical, true, false]
     disabledScroll: {
       type: [Boolean, String],
       default: false

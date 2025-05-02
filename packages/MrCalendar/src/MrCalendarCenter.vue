@@ -45,7 +45,7 @@
           
         </slot>
       </div>
-      <calendar
+      <MrCalendar
         ref="calendar"
         :show="isShowCalendar"
         :isShowWeekView.sync="isShowWeek"
@@ -67,7 +67,7 @@
           <slot name="day" :date="scope.date" :extendAttr="scope.extendAttr">
           </slot>
         </template>
-      </calendar>
+      </MrCalendar>
     </div>
     <div
       class="ctrl-img"
@@ -88,7 +88,7 @@
 
 <script>
 // @ts-check1
-import Calendar from './Calendar.vue'
+import MrCalendar from './MrCalendar.vue'
 import { formatDate } from '../utils/util'
 import { ARROW_DOWN_IMG, ARROW_UP_IMG } from '../constant/img'
 import languageUtil from '../language'
@@ -169,9 +169,9 @@ export default {
     }
   },
   components: {
-    Calendar
+    MrCalendar
   },
-  name: 'VueHashCalendar',
+  name: 'MrCalendarCenter',
   data() {
     return {
       arrowDownImg: ARROW_DOWN_IMG,

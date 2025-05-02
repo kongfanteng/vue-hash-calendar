@@ -86,7 +86,7 @@ import languageUtil from '../language';
 let timer = null;
 
 export default {
-  name: 'Calendar',
+  name: 'MrCalendar',
   props: {
     // 最小可选日期
     minDate: {
