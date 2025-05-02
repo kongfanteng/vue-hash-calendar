@@ -15,17 +15,22 @@
            v-if="isShowAction"
            ref="calendarTitle">
         <slot name="action">
-          <div v-if="showTodayButton"
-               :class="{ today_disable: disabledDate(new Date()) }"
-               @click="today">
-            <slot name="today">
-              {{ language.TODAY }}
-            </slot>
-          </div>
-          <div class="calendar_title_date">
-            <span class="calendar_title_date_year"
-                  :class="{ calendar_title_date_active: isShowCalendar }"
-                  @click="showCalendar">{{
+          <div class="action_box">
+            <div v-if="showTodayButton"
+                 class="action_today"
+                 :class="{ today_disable: disabledDate(new Date()) || isToday }"
+                 @click="today">
+              <slot name="today">
+                {{ language.TODAY }}
+              </slot>
+            </div>
+            <div class="calendar_title_date">
+              <img class="calendar_title_icon"
+                   :src="arrowLeftImg"
+                   @click="changeView('last')" />
+              <span class="calendar_title_date_year"
+                    :class="{ calendar_title_date_active: isShowCalendar }"
+                    @click="showCalendar">{{
                 formatDate(
                   `${checkedDate.year}/${checkedDate.month + 1}/${
                     checkedDate.day
@@ -33,8 +38,16 @@
                   language.DEFAULT_DATE_FORMAT
                 )
               }}</span>
+              <slot name="setting">
+                <img @click="changeView('next')"
+                     class="calendar_title_icon"
+                     :src="arrowRightImg" />
+              </slot>
+            </div>
+            <img class="calendar_title_seting"
+                 :src="settingImg"
+                 @click="$emit('setting')" />
           </div>
-
         </slot>
       </div>
       <MrCalendar ref="calendar"
@@ -84,7 +97,7 @@
 // @ts-checkx
 import MrCalendar from './MrCalendar.vue';
 import {formatDate} from '../utils/util';
-import {ARROW_DOWN_IMG, ARROW_UP_IMG} from '../constant/img';
+import {ARROW_DOWN_IMG, ARROW_UP_IMG, ARROW_LEFT_IMG, ARROW_RIGHT_IMG, SETTING_IMG} from '../constant/img';
 import languageUtil from '../language';
 
 const defaultDate = {
@@ -179,6 +192,9 @@ export default {
         return {
             arrowDownImg: ARROW_DOWN_IMG,
             arrowUpImg: ARROW_UP_IMG,
+            arrowLeftImg: ARROW_LEFT_IMG,
+            arrowRightImg: ARROW_RIGHT_IMG,
+            settingImg: SETTING_IMG,
             language: {}, // Language pack to use
             checkedDate: defaultDate, // Selected date
             isShowWeek: false,
@@ -276,6 +292,12 @@ export default {
         // Height of the calendar component
         calendarContentHeight() {
             return this.calendarBodyHeight + this.calendarTitleHeight;
+        },
+        isToday() {
+            const {year, month, day} = this.checkedDate;
+            return (
+                year === this.currDateTime.getFullYear() && month === this.currDateTime.getMonth() && day === this.currDateTime.getDate()
+            );
         }
     },
     methods: {
@@ -294,6 +316,13 @@ export default {
             if (this.disabledDate(new Date())) return;
 
             this.$refs.calendar.today();
+        },
+        changeView(viewType) {
+            try {
+                this[`${viewType}${this.isShowWeek ? 'Week' : 'Month'}`]();
+            } catch (error) {
+                console.log('changeView:', error);
+            }
         },
         lastMonth() {
             this.$refs.calendar.getLastMonth();
@@ -473,17 +502,49 @@ export default {
     width: 100%;
     left: 0;
     top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     z-index: 1;
     height: common.px2vw(56px);
-    padding: common.px2vw(12px) px2vw(24px);
+}
+.action_box {
+    padding: common.px2vw(12px) common.px2vw(24px);
+    @include common.flexContent(center, space-between);
+}
+.action_today {
+    border-radius: common.px2vw(360px);
+    border: 0.5px solid common.$default-main-color;
+    background: var(--Grey-Color-Grey-0, #fff);
+    height: common.px2vw(32px);
+    padding: 0px common.px2vw(12px);
+    color: common.$default-main-color;
+    font-size: common.px2vw(14px);
+    font-weight: 400;
+    @include common.flexContent();
+    &:hover {
+        background: var(--Main-Color-Glod-Main-Color-4a20, rgba(194, 161, 91, 0.2));
+    }
+
+    &.today_disable {
+        border-color: var(--Main-Color-Glod-Main-Color-4a30, rgba(194, 161, 91, 0.3));
+        background: var(--Grey-Color-Grey-0, #fff);
+        color: var(--Main-Color-Glod-Main-Color-4a30, rgba(194, 161, 91, 0.3));
+    }
 }
 
 .calendar_title_date {
     @include common.viceFontColor('color');
     background: white;
+}
+.calendar_title_icon {
+    width: 16px;
+    height: 16px;
+}
+.calendar_title_seting {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+.calendar_title_date_year {
+    padding: 0 common.px2vw(16px);
 }
 
 .calendar_title_date_active {
