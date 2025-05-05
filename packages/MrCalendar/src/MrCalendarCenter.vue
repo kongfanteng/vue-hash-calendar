@@ -596,6 +596,7 @@ export default {
 
 .calendar_title_date {
     @include common.viceFontColor('color');
+    @include common.flexContent();
 }
 .calendar_title_icon {
     width: common.px2vw(16px);
