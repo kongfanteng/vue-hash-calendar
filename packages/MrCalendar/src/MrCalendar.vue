@@ -198,7 +198,7 @@ export default {
             monthOfToday: new Date().getMonth(), // Month of today
             dayOfToday: new Date().getDate(), // Day of today
             weekArray: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'], // Week array
-            calendarWeek: ['日', '一', '二', '三', '四', '五', '六'], // Week corresponding to the calendar
+            calendarWeek: ['S', 'M', 'T', 'W', 'T', 'F', 'S'], // Week corresponding to the calendar
             calendarOfMonth: [], // Calendar table corresponding to the month
             calendarOfMonthShow: [], // Calendar table corresponding to the month
             calendarDaysTotalLength: 42, // Total number of days displayed in the calendar table, 6 rows and 7 columns
@@ -717,7 +717,7 @@ export default {
             return val > 9 ? val : '0' + val;
         },
         // Date format conversion
-        dateFormat(dateArr){
+        dateFormat(dateArr) {
             dateArr.forEach((date, index) => {
                 dateArr[index] = formatDate(date, 'YY/MM/DD');
             });
@@ -802,6 +802,7 @@ export default {
     flex-direction: column;
     padding: common.px2vw(2px) 0;
     position: relative;
+    box-sizing: border-box;
 }
 
 .calendar_item_disable {

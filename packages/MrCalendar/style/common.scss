@@ -2,9 +2,8 @@
 @forward './colorVariable.scss';
 
 // Design draft size
-$designSize: 720px;
+$designSize: 1280px;
 
-// 1px solid border
 @mixin solidBorder($color: colors.$bg-color) {
   border: 1px solid $color;
 }

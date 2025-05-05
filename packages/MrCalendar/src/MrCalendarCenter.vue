@@ -510,6 +510,7 @@ export default {
     left: 0;
     background: rgba(0, 0, 0, 0.6);
     z-index: 999;
+    overflow: auto;
 }
 
 .calendar_inline {
@@ -531,6 +532,7 @@ export default {
     background: white;
     height: common.px2vw(710px);
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .calendar_title {
@@ -544,10 +546,12 @@ export default {
     height: common.px2vw(56px);
     padding: common.px2vw(12px) common.px2vw(24px);
     @include common.flexContent(center, space-between);
+    box-sizing: border-box;
 }
 .action_box_card {
     height: common.px2vw(40px);
     padding: 0 common.px2vw(24px);
+    box-sizing: border-box;
     @include common.flexContent(center, space-between);
     .calendar_title_date {
         position: relative;

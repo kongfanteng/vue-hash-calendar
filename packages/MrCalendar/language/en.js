@@ -1,5 +1,4 @@
 export default {
-    CONFIRM: 'CONFIRM',
     TODAY: 'Today',
     WEEK: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
     MONTH_SHORT: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],

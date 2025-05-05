@@ -45,12 +45,9 @@ export default {
     components: {},
     data() {
         return {
-            themeColor: {
-                // 'main-color': '#ff6600',
-                'disabled-bg-color': 'none'
-            }, // 主题颜色
-            isShowCalendar: true, // 是否显示弹窗
-            isShowTips: false, // 是否显示下载提示
+            themeColor: {}, // Theme color
+            isShowCalendar: true, // Whether to show the popup
+            isShowTips: false, // Whether to show the download prompt
             defaultDatetime: new Date(),
             markDate: [
                 `${currentYear}/05/24`,
@@ -125,7 +122,7 @@ export default {
                         `${currentYear}/12/29`
                     ]
                 }
-            ] // 对象数组形式的标记日期，可以自定义标记颜色
+            ] // Marked dates in object array format, allowing custom mark colors
         };
     },
     mounted() {
@@ -133,31 +130,31 @@ export default {
     },
     methods: {
         showCalendarDialog() {
-            // 显示日历
+            // Show the calendar
             this.isShowCalendar = true;
         },
         dateChange(date) {
-            // 日期改变触发
+            // Triggered when the date changes
             console.log(date, 'change');
         },
         dateConfirm(date) {
-            // 点击确认按钮触发
+            // Triggered when the confirm button is clicked
             console.log(date, 'confirm');
         },
         slidechange(direction) {
-            // 滑动方向
+            // Slide direction
             console.log(direction, 'direction');
         },
         dateClick(date) {
-            // 点击日期时按钮触发
+            // Triggered when a date is clicked
             console.log(date, 'click');
         },
         calendarTypeChange(type) {
-            // 日历展示类型切换时触发
+            // Triggered when the calendar display type changes
             console.log(type, 'calendarType');
         },
         disabledDate(date) {
-            // 禁用的日期
+            // Disabled dates
             let timestamp = date.getTime();
             let oneDay = 24 * 60 * 60 * 1000;
 
@@ -167,7 +164,7 @@ export default {
             return false;
         },
         disabledTime(date) {
-            // 禁用的时间
+            // Disabled times
             let hours = date.getHours();
             let minute = date.getMinutes();
             let hoursNow = new Date().getHours();
