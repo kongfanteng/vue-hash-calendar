@@ -10,14 +10,14 @@ export let formatDate = function (time, format, lang = 'CN') {
     format = format || `${language.DEFAULT_DATE_FORMAT} ${language.DEFAULT_TIME_FORMAT}`;
     let date = time ? new Date(time) : new Date();
     let year = date.getFullYear();
-    let month = date.getMonth() + 1; // 月份是从0开始的
+    let month = date.getMonth() + 1; // Month from 0
     let day = date.getDate();
     let hour = date.getHours();
     let min = date.getMinutes();
     let sec = date.getSeconds();
     let preArr = Array.apply(null, Array(10)).map(function (elem, index) {
         return '0' + index;
-    }); /// /开个长度为10的数组 格式为 00 01 02 03
+    }); /// format 00 01 02 03
 
     let newTime = format
         .replace(/YY/g, year)

@@ -390,7 +390,7 @@ export default {
                 }`
             );
             if (this.format) {
-                fDate = formatDate(fDate, this.format, this.lang);
+                fDate = formatDate(fDate, this.format);
             }
 
             // Control the next selection panel after clicking
